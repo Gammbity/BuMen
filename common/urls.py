@@ -3,7 +3,7 @@ from common import views
 
 urlpatterns = [
     path('setting/', views.SettingsView.as_view()),
-    path('user-contact-application/', views.UserContactView.as_view()),
+    path('user-contact-application/create/', views.UserContactView.as_view()),
     path('partners/', views.PartnerView.as_view()),
     path('news/', views.NewView.as_view()),
     path('page/<int:pk>/', views.PageView.as_view()),

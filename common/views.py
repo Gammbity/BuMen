@@ -28,6 +28,7 @@ class NewView(generics.ListAPIView):
 class PageView(generics.RetrieveAPIView):
     queryset = models.PageModel.objects.all()
     serializer_class = serializers.PageSerializer
+    lookup_field = 'pk'
 
 class QuoteView(generics.ListAPIView):
     queryset = models.QuoteModel.objects.all()
