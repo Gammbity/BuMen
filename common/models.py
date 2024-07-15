@@ -13,7 +13,7 @@ class BaseModel(models.Model):
 class SettingsModel(BaseModel):
     objects = models.Manager()
     email = models.EmailField()
-    links = models.URLField()
+    links = models.URLField()   
     appstore_link = models.URLField(null=True, blank=True)
     playmarket_link = models.URLField(null=True, blank=True)
     contact_phone = models.CharField(max_length=13)

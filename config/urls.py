@@ -27,6 +27,7 @@ urlpatterns = [
 
    #app
    path('api/v1/user/', include('user.urls')),
+   path('api/v1/common/', include('common.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
