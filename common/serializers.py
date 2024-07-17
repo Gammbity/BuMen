@@ -20,16 +20,15 @@ class SettingsSerializer(serializers.ModelSerializer):
             'facebook'
         ]
 
-class UserConSerializer(serializers.ModelSerializer):
+class UserConCreateSerializer(serializers.ModelSerializer): 
     class Meta:
         model = models.UserContactAppModel
         fields = [
             'full_name',
             'phone',
-            'message',
-            'is_contacted'
+            'message'
         ]
-    
+
 class PartnerSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.PartnerModel
@@ -38,7 +37,7 @@ class PartnerSerializer(serializers.ModelSerializer):
 class NewSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.NewModel
-        fields = ['slug', 'title', 'content', 'banner']
+        fields = ['slug', 'title', 'content', 'banner', 'hit_count']
 
 class PageSerializer(serializers.ModelSerializer):
     class Meta:

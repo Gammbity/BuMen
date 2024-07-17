@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from ckeditor_uploader.fields import RichTextUploadingField
-
+from rest_framework import pagination
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,6 +50,7 @@ class NewModel(BaseModel):
     content = RichTextUploadingField()
     banner = models.ImageField(upload_to='common/news/%Y/%m/')
     top = models.BooleanField(default=False)
+    hit_count = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name = _('new')
@@ -75,7 +76,6 @@ class AdvertisingModel(BaseModel):
     class Meta:
         verbose_name = _('advertising')
         verbose_name_plural = _('advertisements')
-
 
 class FAQModel(BaseModel):
     question = models.CharField(max_length=255)

@@ -1,8 +1,8 @@
-from rest_framework.test import APITestCase
+from django.test import TestCase
 from user import models
 
 
-class UserTest(APITestCase):
+class UserTest(TestCase):
 
     def test_user_create(self):
         user = {
