@@ -60,6 +60,7 @@ class NewsViewModel(BaseModel):
     news = models.ForeignKey(NewModel, related_name='views', on_delete=models.CASCADE)
     visitor_id = models.UUIDField()
     ip = models.GenericIPAddressField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         verbose_name = _('news view')

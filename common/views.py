@@ -8,6 +8,8 @@ from django.views.decorators.cache import cache_page
 from django_filters.rest_framework.backends import DjangoFilterBackend
 from common import filters
 from common import throttling
+from common.tasks import add_news_view
+from common.utility import get_ip
 
 
 class SettingsView(generics.GenericAPIView):
@@ -40,6 +42,17 @@ class NewDetailView(generics.RetrieveAPIView):
     queryset = models.NewModel.objects.all()
     serializer_class = serializers.NewSerializer
     lookup_field = 'slug'
+
+    def get_object(self):
+        news = super().get_object()
+        news_id = news.id
+        visitor_id = self.request.META.get('HTTP_X_VISITOR_ID')
+        ip = get_ip(self.request)
+
+        if visitor_id:
+            add_news_view.delay(news_id, visitor_id, ip)
+
+        return news
 
 class PageView(generics.RetrieveAPIView):
     queryset = models.PageModel.objects.all()
