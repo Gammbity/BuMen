@@ -6,7 +6,7 @@ urlpatterns = [
     path('user-contact-application/create/', views.UserContactView.as_view()),
     path('partners/', views.PartnerView.as_view()),
     path('news/', views.NewView.as_view()),
-    path('new/<str:slug>/', views.NewGetView.as_view()),
+    path('new/<str:slug>/', views.NewDetailView.as_view()),
     path('page/<str:slug>/', views.PageView.as_view()),
     path('quote/', views.QuoteView.as_view()),
     path('advertising/', views.AdvertisingView.as_view()),

@@ -36,7 +36,7 @@ class NewView(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend]
     filterset_class = filters.NewsFilter
 
-class NewGetView(generics.RetrieveAPIView):
+class NewDetailView(generics.RetrieveAPIView):
     queryset = models.NewModel.objects.all()
     serializer_class = serializers.NewSerializer
     lookup_field = 'slug'

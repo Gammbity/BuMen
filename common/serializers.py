@@ -37,7 +37,7 @@ class PartnerSerializer(serializers.ModelSerializer):
 class NewSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.NewModel
-        fields = ['slug', 'title', 'content', 'banner', 'hit_count']
+        fields = ['slug', 'title', 'content', 'banner', 'hit_count', 'top']
 
 class PageSerializer(serializers.ModelSerializer):
     class Meta:

@@ -56,6 +56,15 @@ class NewModel(BaseModel):
         verbose_name = _('new')
         verbose_name_plural = _('news')
 
+class NewsViewModel(BaseModel):
+    news = models.ForeignKey(NewModel, related_name='views', on_delete=models.CASCADE)
+    visitor_id = models.UUIDField()
+    ip = models.GenericIPAddressField()
+
+    class Meta:
+        verbose_name = _('news view')
+        verbose_name_plural = _('news viwes')
+
 class PageModel(BaseModel):
     slug = models.SlugField(unique=True)
     title = models.CharField(max_length=255)
