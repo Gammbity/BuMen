@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from ckeditor_uploader.fields import RichTextUploadingField
-from rest_framework import pagination
+from user.models import UserModel
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
@@ -25,11 +25,26 @@ class SettingsModel(BaseModel):
     linkedin = models.CharField(max_length=66, null=True, blank=True)
     facebook = models.CharField(max_length=66, null=True, blank=True)
 
+class ContactCategoryModel(BaseModel):
+    title = models.CharField(max_length=255, verbose_name=_("nomi"))
+
+    class Meta:
+        verbose_name = _('contact category')
+        verbose_name_plural = _('contact categories')
+
 class UserContactAppModel(BaseModel):
-    full_name = models.CharField(max_length=255)
-    phone = models.CharField(max_length=13)
-    message = models.TextField(max_length=500)
-    is_contacted = models.BooleanField(default=False)
+    choices = [
+        {1, 'mobile'},
+        {2, 'landing'}
+    ]
+    source = models.CharField(max_length=255, choices=choices)
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='user_contact', null=True, blank=True)
+    email = models.EmailField(null=True, blank=True)
+    full_name = models.CharField(max_length=255, null=True, blank=True)
+    phone = models.CharField(max_length=13, null=True, blank=True)
+    message = models.TextField(max_length=500, verbose_name=_('xabar'))
+    category = models.ForeignKey(ContactCategoryModel, on_delete=models.CASCADE, related_name='user_contact', null=True, blank=True)
+    file = models.FileField(upload_to='user-contact/Y%/m%/', null=True, blank=True)
 
     class Meta:
         ordering = ['is_contacted', 'created_at']
@@ -123,3 +138,20 @@ class AboutAppModel(BaseModel):
             self.order = order
 
         super().save(*args, **kwargs)
+
+class PaymentCheck(BaseModel):
+    choices = [
+        {1, 'payme'},
+        {2, 'click'},
+        {3, 'paylov'},
+        {4, 'uzumbank'}
+    ]
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='check')
+    amount = models.PositiveBigIntegerField(verbose_name=_("miqdori"))
+    payment_system = models.CharField(max_length=255, choices=choices, verbose_name=_("to'lov tizimi"))
+    payment_id = models.CharField(max_length=255)
+
+    class Meta:
+        ordering = ['-created_at']
+        verbose_name = _('check')
+        verbose_name_plural = _('checks')

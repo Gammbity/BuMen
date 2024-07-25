@@ -31,8 +31,19 @@ class CustomUserManager(UserManager):
         return self._create_user(email, password, **extra_fields)
 
 class UserModel(AbstractUser, BaseModel):
+    choices = [
+        {1, 'pro'},
+        {2, 'oddiy'}
+    ]
+    full_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=13)
     email = models.EmailField(unique=True)
+    telegram_id = models.CharField(max_length=255, null=True, blank=True)
+    balance = models.PositiveBigIntegerField()
+    is_pro = models.CharField(max_length=255, choices=choices)
+    pro_finish_at = models.DateTimeField()
+    lang = models.CharField(max_length=2)
+    score = models.PositiveIntegerField()
     username = None
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

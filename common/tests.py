@@ -1,5 +1,25 @@
 from common import models
 from django.test import TestCase
+import uuid
+from common import utils
+from common import tasks
+
+class TaskTest_create_test_image(TestCase):
+
+    def test_happy(self):
+        news = models.NewModel.objects.create(
+            title='New',
+            banner=utils.create_test_image(),
+            content='news content',
+            slug='new'
+        )
+
+        news_view = models.NewsViewModel.objects.create(news=news, visitor_id=uuid.uuid4(), ip='127.0.0.1')
+        news_view.created_at = '2021-01-01'
+        news_view.save()
+
+        tasks.news_views_cleaner()
+        self.assertEqual(models.NewsViewModel.objects.count(), 0)
 
 class UserContactApp(TestCase):
 

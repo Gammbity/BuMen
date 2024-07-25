@@ -23,3 +23,11 @@ def add_news_view(news_id, visitor_id, ip):
     models.NewModel.objects.filter(id=news_id).update(
         hit_count = F('hit_count') + 1
     )
+
+@shared_task
+def news_views_cleaner():
+    count, _= models.NewsViewModel.objects.filter(
+        created_at__lt=timezone.now() - timedelta(days=14)
+    ).delete()
+
+    return f"{count} NewsViewModels deleted!"
