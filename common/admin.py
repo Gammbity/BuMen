@@ -51,8 +51,11 @@ class AdvertisingAdmin(admin.ModelAdmin):
 
 @admin.register(models.FAQModel)
 class FAQAdmin(admin.ModelAdmin):
-    list_display = ['id', 'question', 'answer']
-    list_display_links = ['id', 'question', 'answer']
+    list_display = ['question', 'order']
+    list_display_links = ['question']
+    list_editable = ['order']
+    search_fields = ['question_uz', 'question_ru', 'question_en']
+    list_filter = ['created_at', 'updated_at']
 
 @admin.register(models.AboutAppModel)
 class AboutAppAdmin(admin.ModelAdmin):

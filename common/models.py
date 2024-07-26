@@ -109,11 +109,7 @@ class FAQModel(BaseModel):
     question = models.CharField(max_length=255)
     answer = models.CharField(max_length=255)
     order = models.PositiveIntegerField(blank=True)
-
-    class Meta:
-        verbose_name = _('FAQ')
-        verbose_name_plural = _('FAQs')
-
+    
     def save(self, *args, **kwargs):
         if self.order is None:
             order = 1
@@ -123,6 +119,12 @@ class FAQModel(BaseModel):
             self.order = order
 
         super().save(*args, **kwargs)
+
+    class Meta:
+        ordering = ['order', '-created_at']
+        verbose_name = _('FAQ')
+        verbose_name_plural = _('FAQs')
+
 
 class AboutAppModel(BaseModel):
     caption = models.CharField(max_length=255)
