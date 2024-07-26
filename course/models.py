@@ -27,8 +27,12 @@ class VacansyModel(BaseModel):
 
 class LessonThemeModel(BaseModel):
     title = models.CharField(max_length=255, verbose_name=_("sarlavha"))
-    photo = models.ImageField(upload_to='lessont-theme/%Y/%m/', verbose_name=_('rasm'))  
+    photo = models.ImageField(upload_to='lessont-theme/%Y/%m/', verbose_name=_('rasm')) 
+    author = models.CharField(max_length=255, verbose_name=_('avtor')) 
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='lesson_theme', verbose_name=_("kategoriya"))
+
+    def __str__(self) -> str:
+        return self.title
 
     class Meta:
         verbose_name = _('dars mavzusi')
@@ -59,6 +63,7 @@ class LessonModel(BaseModel):
     theme = models.ForeignKey(LessonThemeModel, on_delete=models.CASCADE, related_name='lesson', verbose_name=_("mavzu"))
 
     class Meta:
+        unique_together = ['theme', 'type']
         verbose_name = _('darslik')
         verbose_name_plural = _('darsliklar')
 
