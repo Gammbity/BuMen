@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils.translation import gettext_lazy as _
-from common.models import BaseModel
 
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -30,25 +29,29 @@ class CustomUserManager(UserManager):
 
         return self._create_user(email, password, **extra_fields)
 
-class UserModel(AbstractUser, BaseModel):
-    choices = [
-        {1, 'pro'},
-        {2, 'oddiy'}
-    ]
+class UserModel(AbstractUser):
+    choice = (
+        (1, _('pro')),
+        (2, _('oddiy'))
+    )
+    
     full_name = models.CharField(max_length=255)
     phone = models.CharField(max_length=13)
     email = models.EmailField(unique=True)
     telegram_id = models.CharField(max_length=255, null=True, blank=True)
-    balance = models.PositiveBigIntegerField()
-    is_pro = models.CharField(max_length=255, choices=choices)
-    pro_finish_at = models.DateTimeField()
+    balance = models.PositiveBigIntegerField(default=50000)
+    is_pro = models.CharField(max_length=255, choices=choice)
+    pro_finish_at = models.DateTimeField(auto_now_add=True)
     lang = models.CharField(max_length=2)
-    score = models.PositiveIntegerField()
+    score = models.PositiveIntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     username = None
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = CustomUserManager()
 
     class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
+        verbose_name = _('foydalanuvchi')
+        verbose_name_plural = _('foydalanuvchilar')

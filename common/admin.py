@@ -25,8 +25,14 @@ class PartnerAdmin(admin.ModelAdmin):
 
 @admin.register(models.NewModel)
 class NewAdmin(admin.ModelAdmin):
-    list_display = ['title']
-    list_display_links = ['title']
+    list_display = ['title', 'slug', 'top', 'hit_count']
+    list_display_links = ['title', 'slug', 'top', 'hit_count']
+    list_filter = ['top', 'created_at', 'updated_at']
+    search_fields = ['title_uz', 'title_ru', 'titile_en']
+    prepopulated_fields = {
+        'slug': ['title_uz']
+    }
+    readonly_fields = ['hit_count']
 
 @admin.register(models.PageModel)
 class PageAdmin(admin.ModelAdmin):

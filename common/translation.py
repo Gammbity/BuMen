@@ -21,3 +21,8 @@ class QuoteTrans(TranslationOptions):
 @register(models.PageModel)
 class PageTrans(TranslationOptions):
     fields = ['title', 'content']
+
+
+@register(models.NewModel)
+class NewTrans(TranslationOptions):
+    fields = ['title', 'content']

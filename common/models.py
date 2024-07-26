@@ -4,8 +4,8 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from user.models import UserModel
 
 class BaseModel(models.Model):
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('yaratilgan vaqti'))
+    updated_at = models.DateTimeField(auto_now=True, verbose_name=_('yangilangan vaqti'))
 
     class Meta:
         abstract=True
@@ -45,6 +45,7 @@ class UserContactAppModel(BaseModel):
     message = models.TextField(max_length=500, verbose_name=_('xabar'))
     category = models.ForeignKey(ContactCategoryModel, on_delete=models.CASCADE, related_name='user_contact', null=True, blank=True)
     file = models.FileField(upload_to='user-contact/Y%/m%/', null=True, blank=True)
+    is_contacted = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['is_contacted', 'created_at']
@@ -67,9 +68,12 @@ class NewModel(BaseModel):
     top = models.BooleanField(default=False)
     hit_count = models.PositiveIntegerField(default=0)
 
+    def __str__(self) -> str:
+        return self.title
+
     class Meta:
-        verbose_name = _('new')
-        verbose_name_plural = _('news')
+        verbose_name = _('yangilik')
+        verbose_name_plural = _('yangilikar')
 
 class NewsViewModel(BaseModel):
     news = models.ForeignKey(NewModel, related_name='views', on_delete=models.CASCADE)
@@ -77,8 +81,8 @@ class NewsViewModel(BaseModel):
     ip = models.GenericIPAddressField(db_index=True)
 
     class Meta:
-        verbose_name = _('news view')
-        verbose_name_plural = _('news viwes')
+        verbose_name = _("ko'rilgan yangilik")
+        verbose_name_plural = _("ko'rilgan yangiliklar")
 
 class PageModel(BaseModel):
     slug = models.SlugField(unique=True)
@@ -140,13 +144,13 @@ class AboutAppModel(BaseModel):
         super().save(*args, **kwargs)
 
 class PaymentCheck(BaseModel):
-    choices = [
-        {1, 'payme'},
-        {2, 'click'},
-        {3, 'paylov'},
-        {4, 'uzumbank'}
-    ]
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='check')
+    choices = (
+        (1, 'payme'),
+        (2, 'click'),
+        (3, 'paylov'),
+        (4, 'uzumbank')
+    )
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='payment_check')
     amount = models.PositiveBigIntegerField(verbose_name=_("miqdori"))
     payment_system = models.CharField(max_length=255, choices=choices, verbose_name=_("to'lov tizimi"))
     payment_id = models.CharField(max_length=255)
