@@ -4,10 +4,10 @@ from modeltranslation.admin import TranslationAdmin
 from course import models
 from django.utils.safestring import mark_safe
 
-# @admin.register(models.CategoryModel)
-# class CategoryAdmin(TranslationAdmin):
-#     list_display = ['name']
-#     search_fields = ['name_uz', 'name_ru', 'name_en']
+@admin.register(models.CategoryModel)
+class CategoryAdmin(TranslationAdmin):
+    list_display = ['name']
+    search_fields = ['name_uz', 'name_ru', 'name_en']
 
 
 class LessonInline(admin.TabularInline):

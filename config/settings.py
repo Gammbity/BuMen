@@ -27,6 +27,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 INSTALLED_APPS = [
     'jazzmin',
+    'modeltranslation', # bu app django.contrib.admin dan oldinda turishi kerak
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,7 +38,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'rest_framework_simplejwt',
-    'modeltranslation',
+
     'ckeditor',
     'ckeditor_uploader',
     'corsheaders',

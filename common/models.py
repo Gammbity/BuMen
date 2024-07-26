@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from ckeditor_uploader.fields import RichTextUploadingField
-from user.models import UserModel
+
 
 class BaseModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_('yaratilgan vaqti'))
@@ -38,7 +38,7 @@ class UserContactAppModel(BaseModel):
         {2, 'landing'}
     ]
     source = models.CharField(max_length=255, choices=choices)
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='user_contact', null=True, blank=True)
+    user = models.ForeignKey('user.UserModel', on_delete=models.CASCADE, related_name='user_contact', null=True, blank=True)
     email = models.EmailField(null=True, blank=True)
     full_name = models.CharField(max_length=255, null=True, blank=True)
     phone = models.CharField(max_length=13, null=True, blank=True)
@@ -152,7 +152,7 @@ class PaymentCheck(BaseModel):
         (3, 'paylov'),
         (4, 'uzumbank')
     )
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='payment_check')
+    user = models.ForeignKey('user.UserModel', on_delete=models.CASCADE, related_name='payment_check')
     amount = models.PositiveBigIntegerField(verbose_name=_("miqdori"))
     payment_system = models.CharField(max_length=255, choices=choices, verbose_name=_("to'lov tizimi"))
     payment_id = models.CharField(max_length=255)

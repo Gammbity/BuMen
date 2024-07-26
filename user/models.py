@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractUser, UserManager
 from django.utils.translation import gettext_lazy as _
+from common.models import BaseModel
 
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -29,7 +30,7 @@ class CustomUserManager(UserManager):
 
         return self._create_user(email, password, **extra_fields)
 
-class UserModel(AbstractUser):
+class UserModel(AbstractUser, BaseModel):
     choice = (
         (1, _('pro')),
         (2, _('oddiy'))
