@@ -3,12 +3,16 @@ from common.models import BaseModel
 from django.utils.translation import gettext_lazy as _
 from user.models import UserModel
 from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 
 class CategoryModel(BaseModel):
     name = models.CharField(max_length=255, verbose_name=_('nomi'))
     clicked_user = models.ManyToManyField(UserModel, verbose_name=_("tashrif buyurgan foydalanuvchilar"), related_name="category")
     click_count = models.PositiveBigIntegerField(default=0, verbose_name=_("bosish soni"))
 
+    def __str__(self) -> str:
+        return self.name
+    
     class Meta:
         ordering = ['-click_count']
         verbose_name = _('kategoriy')
@@ -20,6 +24,9 @@ class VacansyModel(BaseModel):
     company_name = models.CharField(max_length=255, verbose_name=_("kompaniya_nomi"))
     description = RichTextField(verbose_name=_("tavsif"))
     salary = models.CharField(max_length=255, verbose_name=_("maosh"))
+
+    def __str__(self) -> str:
+        return self.title
 
     class Meta:
         verbose_name = _("bo'sh ish o'rni")
@@ -42,6 +49,9 @@ class ClubModel(BaseModel):
     theme = models.OneToOneField(LessonThemeModel, on_delete=models.CASCADE, related_name='club', verbose_name=_("mavzu"))
     title = models.CharField(max_length=255, verbose_name=_("sarlavha"))
 
+    def __str__(self) -> str:
+        return self.title
+    
     class Meta:
         verbose_name = _('klub')
         verbose_name_plural = _('klublar')
@@ -62,11 +72,14 @@ class LessonModel(BaseModel):
     type = models.CharField(max_length=100, choices=choices, verbose_name=_("turi"))
     theme = models.ForeignKey(LessonThemeModel, on_delete=models.CASCADE, related_name='lesson', verbose_name=_("mavzu"))
 
+    def __str__(self) -> str:
+        return f"{self.theme} | {self.type}"
+
     class Meta:
         unique_together = ['theme', 'type']
         verbose_name = _('darslik')
         verbose_name_plural = _('darsliklar')
-
+        
 class DicussionModel(BaseModel):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, verbose_name=_("foydalanuvchi"), related_name="discussion")
     lesson = models.ForeignKey(LessonModel, verbose_name=_("darslik"), on_delete=models.CASCADE, related_name="discussion")
@@ -89,9 +102,12 @@ class DiscussionCommentModel(BaseModel):
 
 class StageModel(BaseModel):
     lesson = models.ForeignKey(LessonModel, verbose_name=_("darslik"), on_delete=models.CASCADE, related_name="stage")
-    content = RichTextField(verbose_name=_("mazmun")) 
+    content = RichTextUploadingField(verbose_name=_("mazmun")) 
     order = models.PositiveIntegerField(verbose_name=_("tartib"))
 
+    def __str__(self) -> str:
+        return f'{self.lesson} | {self.order} - bosqich'
+    
     class Meta:
         verbose_name = _('bosqich')
         verbose_name_plural = _('bosqichlar')
@@ -116,15 +132,21 @@ class TestQuestionModel(BaseModel):
     stage = models.ForeignKey(StageModel, related_name='test_question', on_delete=models.CASCADE, verbose_name=_("bosqich"))
     text = models.TextField(verbose_name=_("matn"))
 
+    def __str__(self) -> str:
+        return self.text
+    
     class Meta:
         verbose_name = _('test savoli')
         verbose_name_plural = _('test savollari')
     
 class TestQuestionChoiceModel(BaseModel):
     question = models.ForeignKey(TestQuestionModel, related_name='testquestion_choice', on_delete=models.CASCADE, verbose_name=_("savol")) 
-    text = models.TextField(verbose_name=_("matn"))
+    choice = models.TextField(verbose_name=_("matn"))
     is_correct = models.BooleanField(default=False, verbose_name=_("to'g'riligi"))
 
+    def __str__(self) -> str:
+        return self.choice
+    
     class Meta:
         verbose_name = _('test savol varianti')
         verbose_name_plural = _('test savol variantlari')
