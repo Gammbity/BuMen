@@ -29,5 +29,5 @@ def news_views_cleaner():
     count, _= models.NewsViewModel.objects.filter(
         created_at__lt=timezone.now() - timedelta(days=14)
     ).delete()
-
+        
     return f"{count} NewsViewModels deleted!"

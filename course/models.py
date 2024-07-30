@@ -69,7 +69,7 @@ class LessonModel(BaseModel):
         (1, _("mahalliy")),
         (2, _('umumjahon'))
     )
-    type = models.CharField(max_length=100, choices=choices, verbose_name=_("turi"))
+    type = models.IntegerField(choices=choices, verbose_name=_("turi"))
     theme = models.ForeignKey(LessonThemeModel, on_delete=models.CASCADE, related_name='lesson', verbose_name=_("mavzu"))
 
     def __str__(self) -> str:

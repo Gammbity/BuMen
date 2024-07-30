@@ -88,7 +88,7 @@ class TestQuestionInline(admin.TabularInline):
     extra = 0
 
     def link(self,instanse):
-        url = f"/admin/course/testquestionmodel/{instanse.id}/changed/"
+        url = f"/admin/course/testquestionmodel/{instanse.id}/change/"
         return mark_safe(f'<a terget=_blank href="{url}">Kirish</a>')
 
 @admin.register(models.StageModel)
