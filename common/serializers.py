@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from common import models
 
+
+class ContactCategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ContactCategoryModel
+        fields = ['title']
+
 class SettingsSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.SettingsModel

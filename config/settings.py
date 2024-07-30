@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'common',
     'user',
     'course',
-    
+    'payment',
 ]
 
 MIDDLEWARE = [
@@ -195,8 +195,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
-    'DEFAULT_PAGINATION_CLASS': 'common.paginations.PageNumberPagination',
-    'PAGE_SIZE': 9   
+    # 'DEFAULT_PAGINATION_CLASS': 'common.paginations.PageNumberPagination',
+    # 'PAGE_SIZE': 9   
 }
 
 CACHES = {

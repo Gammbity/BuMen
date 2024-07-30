@@ -174,9 +174,9 @@ class UserTestResultModel(BaseModel):
         verbose_name_plural = _('foydalanvchi test natijalari')
 
 class UserLessonModel(BaseModel):
-    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name="user_lesson_theme", verbose_name=_('foydalanuvchi'))
-    lesson = models.ForeignKey(LessonModel, on_delete=models.CASCADE, related_name="user_lesson_theme", verbose_name=_("darslik"))
-    last_seen_at = models.DateTimeField(verbose_name=_("so'nggi ko'rilgan"))
+    user = models.ForeignKey('user.UserModel', on_delete=models.CASCADE, related_name="user_lesson_theme", verbose_name=_('foydalanuvchi'))
+    lesson = models.ForeignKey('course.LessonModel', on_delete=models.CASCADE, related_name="user_lesson_theme", verbose_name=_("darslik"))
+    last_seen_at = models.DateTimeField(verbose_name=_("so'nggi ko'rilgan"), auto_now=True)
 
     class Meta:
         unique_together = ['user', 'lesson']

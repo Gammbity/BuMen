@@ -6,6 +6,10 @@ from django.core.exceptions import ValidationError as DjangoValidationError
 from django.utils.translation import gettext_lazy as _
 from rest_framework_simplejwt.tokens import RefreshToken
 
+class MeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = ['id', 'email', 'full_name', 'balance', 'is_pro', 'pro_finish_at']
 
 class RegistrationSerializer(serializers.Serializer):
     email = serializers.EmailField()

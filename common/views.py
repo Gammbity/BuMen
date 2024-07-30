@@ -12,6 +12,10 @@ from common.tasks import add_news_view
 from common.utility import get_ip
 
 
+class ContactCategoryView(generics.ListAPIView):
+    queryset = models.ContactCategoryModel.objects.all()
+    serializer_class = serializers.ContactCategorySerializer
+
 class SettingsView(generics.GenericAPIView):
     queryset = models.SettingsModel.objects.all()
     serializer_class = serializers.SettingsSerializer

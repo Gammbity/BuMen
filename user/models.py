@@ -42,12 +42,10 @@ class UserModel(AbstractUser, BaseModel):
     telegram_id = models.CharField(max_length=255, null=True, blank=True)
     balance = models.PositiveBigIntegerField(default=50000)
     is_pro = models.CharField(max_length=255, choices=choice)
-    pro_finish_at = models.DateTimeField(auto_now_add=True)
+    pro_finish_at = models.DateTimeField(null=True)
     lang = models.CharField(max_length=2)
     score = models.PositiveIntegerField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
+    
     username = None
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

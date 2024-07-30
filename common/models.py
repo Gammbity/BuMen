@@ -125,7 +125,6 @@ class FAQModel(BaseModel):
         verbose_name = _('FAQ')
         verbose_name_plural = _('FAQs')
 
-
 class AboutAppModel(BaseModel):
     caption = models.CharField(max_length=255)
     text = models.TextField()

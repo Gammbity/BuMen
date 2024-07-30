@@ -28,12 +28,13 @@ urlpatterns = [
    path('admin/', admin.site.urls),
    path('ckeditor/', include('ckeditor_uploader.urls')),
    path('', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-   path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+   path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
    #app
    path('api/v1/user/', include('user.urls')),
    path('api/v1/common/', include('common.urls')),
+   path('api/v1/course/', include('course.urls')),
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
