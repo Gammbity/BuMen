@@ -20,3 +20,7 @@ class TestQuestionTrans(TranslationOptions):
 @register(models.TestQuestionChoiceModel)
 class TestQuetionChoiceTrans(TranslationOptions):
     fields = ['choice']
+
+@register(models.ClubModel)
+class ClubTrans(TranslationOptions):
+    fields = ['title']

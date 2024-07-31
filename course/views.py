@@ -6,6 +6,24 @@ from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 
+class ClubView(generics.ListAPIView):
+    serializer_class = serializers.ClubSerializer
+
+    def get_queryset(self):
+        theme_id = self.kwargs['theme_id']
+        queryset = models.ClubModel.objects.filter(theme=theme_id)
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        clubs = self.get_queryset()
+        data = []
+        if clubs:
+            for club in clubs:
+                data.append({
+                    'theme': club.theme.title,
+                    'title': club.title
+                })
+            return Response(data, status=status.HTTP_200_OK)
 
 class VacansyListAPIView(generics.ListAPIView):
     serializer_class = serializers.VacansySerializer
@@ -17,10 +35,10 @@ class VacansyListAPIView(generics.ListAPIView):
         return queryset
     
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        if queryset:
+        vacansies = self.get_queryset()
+        if vacansies:
             data = []
-            for vacansy in queryset:
+            for vacansy in vacansies:
                 data.append({
                     'title': vacansy.title,
                     'category': vacansy.category.name,
@@ -30,7 +48,6 @@ class VacansyListAPIView(generics.ListAPIView):
                 })
             return Response(data, status=status.HTTP_200_OK)
         
-
 class StageView(generics.ListAPIView):
     serializer_class = serializers.StageSerializer
 
@@ -41,11 +58,11 @@ class StageView(generics.ListAPIView):
         return queryset
     
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        stages = self.get_queryset()
         data = []
-        if queryset:
-            for obj in queryset:
-                theme, type, stage = str(obj).split('|')
+        if stages:
+            for stage in stages:
+                theme, type, stage = str(stage).split('|')
                 data.append({
                     'theme': theme,
                     'type': type,
@@ -63,9 +80,9 @@ class LessonView(generics.ListAPIView):
         return queryset
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        if queryset:
-            theme, type = str(queryset[0]).split("|")
+        lessons = self.get_queryset()
+        if lessons:
+            theme, type = str(lessons[0]).split("|")
             return Response({
                 'theme': theme,
                 'type': type
