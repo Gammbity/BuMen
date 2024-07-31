@@ -24,6 +24,6 @@ app.conf.beat_schedule = {
     },
     "count_lesson_theme_users_count": {
         "task": "course.tasks.count_lesson_theme_users_count",
-        "schedule": crontab(minute='*/15')
+        "schedule": crontab(minute='*/1')
     }
 }

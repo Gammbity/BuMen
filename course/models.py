@@ -75,7 +75,7 @@ class LessonModel(BaseModel):
     theme = models.ForeignKey(LessonThemeModel, on_delete=models.CASCADE, related_name='lesson', verbose_name=_("mavzu"))
 
     def __str__(self) -> str:
-        return f"{self.theme} | {self.type}"
+        return f"{self.theme} | {self.get_type_display()}"
 
     class Meta:
         unique_together = ['theme', 'type']

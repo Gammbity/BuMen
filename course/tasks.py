@@ -11,4 +11,4 @@ def count_lesson_theme_users_count():
         count += 1
         lesson_theme.save()
 
-    return f"{count}: dars mavzulari jarayonda"
+    return f"{count}- dars mavzulari jarayonda"
