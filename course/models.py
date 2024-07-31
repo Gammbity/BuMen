@@ -7,7 +7,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 class CategoryModel(BaseModel): 
     name = models.CharField(max_length=255, verbose_name=_('nomi'))
-    clicked_user = models.ManyToManyField(UserModel,null=True, blank=True, verbose_name=_("tashrif buyurgan foydalanuvchilar"), related_name="category")
+    clicked_user = models.ManyToManyField(UserModel, null=True, blank=True, verbose_name=_("tashrif buyurgan foydalanuvchilar"), related_name="category")
     click_count = models.PositiveBigIntegerField(default=0, verbose_name=_("bosish soni"))
 
     def __str__(self) -> str:
@@ -75,13 +75,13 @@ class ClubModel(BaseModel):
         verbose_name = _('klub')
         verbose_name_plural = _('klublar')
 
-class ClubPostModel(BaseModel):
+class ClubMemberModel(BaseModel):
     club = models.ForeignKey(ClubModel, on_delete=models.CASCADE, related_name='club_post', verbose_name=_("klub"))
-    content = RichTextField(verbose_name=_("mazmuni"))
+    user = models.ManyToManyField(UserModel, related_name='club_member', verbose_name=_('foydalanuvchi'))
 
     class Meta:
-        verbose_name = _('klub kantenti')
-        verbose_name_plural = _('klub kantentlari')
+        verbose_name = _('klub a\'zosi')
+        verbose_name_plural = _('klub a\'zolari')
         
 class DicussionModel(BaseModel):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, verbose_name=_("foydalanuvchi"), related_name="discussion")

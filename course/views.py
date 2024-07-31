@@ -6,6 +6,25 @@ from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 
+class ClubMemberView(generics.ListAPIView):
+    serializer_class = serializers.ClubMemberSerializer
+
+    def get_queryset(self):
+        club_id = self.kwargs['club_id']
+        queryset = models.ClubMemberModel.objects.filter(club=club_id)
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        club_members = self.get_queryset()
+        if club_members:
+            data = []
+            for club_member in club_members:
+                data.append({
+                    'club': club_member.club,
+                    'user': str(club_member.user)
+                })
+            return Response(data)
+
 class ClubView(generics.ListAPIView):
     serializer_class = serializers.ClubSerializer
 

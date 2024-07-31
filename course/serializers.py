@@ -1,6 +1,11 @@
 from course import models
 from rest_framework import serializers
 
+class ClubMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.ClubMemberModel
+        fields = ['club', 'user']
+
 class ClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.ClubModel
