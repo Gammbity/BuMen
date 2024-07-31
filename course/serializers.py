@@ -1,6 +1,11 @@
 from course import models
 from rest_framework import serializers
 
+class StageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.StageModel
+        fields = ['lesson', 'content', 'order']
+
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.LessonModel

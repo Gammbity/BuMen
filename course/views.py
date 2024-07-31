@@ -6,6 +6,28 @@ from rest_framework.filters import SearchFilter
 from rest_framework.response import Response
 from rest_framework import status
 
+class StageView(generics.ListAPIView):
+    serializer_class = serializers.StageSerializer
+
+    def get_queryset(self):
+        theme_id = self.kwargs['theme_id']
+        lesson_type = self.kwargs['lesson_type']
+        queryset = models.StageModel.objects.filter(lesson=lesson_type, lesson__theme=theme_id)
+        return queryset
+    
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        data = []
+        if queryset:
+            for obj in queryset:
+                theme, type, stage = str(obj).split('|')
+                data.append({
+                    'theme': theme,
+                    'type': type,
+                    'stage': stage
+                })
+            return Response(data, status=status.HTTP_200_OK)
+        
 class LessonView(generics.ListAPIView):
     serializer_class = serializers.LessonSerializer
 
@@ -36,7 +58,6 @@ class CategoryView(generics.ListAPIView):
     serializer_class = serializers.CategorySerializer
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['name']
-
 
 class UserLessonView(generics.ListAPIView):
     queryset = models.UserLessonModel.objects.all()
