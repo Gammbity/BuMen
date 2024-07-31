@@ -18,20 +18,6 @@ class CategoryModel(BaseModel):
         verbose_name = _('kategoriy')
         verbose_name_plural = _('kategoriyalar')
 
-class VacansyModel(BaseModel):
-    title = models.CharField(max_length=255, verbose_name=_("sarlavha"))
-    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='vacansy', verbose_name=_("kategoriya"))
-    company_name = models.CharField(max_length=255, verbose_name=_("kompaniya_nomi"))
-    description = RichTextField(verbose_name=_("tavsif"))
-    salary = models.CharField(max_length=255, verbose_name=_("maosh"))
-
-    def __str__(self) -> str:
-        return self.title
-
-    class Meta:
-        verbose_name = _("bo'sh ish o'rni")
-        verbose_name_plural = _("bo'sh ish o'rinlari")
-
 class LessonThemeModel(BaseModel):
     title = models.CharField(max_length=255, verbose_name=_("sarlavha"))
     photo = models.ImageField(upload_to='lessont-theme/%Y/%m/', verbose_name=_('rasm')) 
@@ -46,6 +32,37 @@ class LessonThemeModel(BaseModel):
         ordering = ['-users_count']
         verbose_name = _('dars mavzusi')
         verbose_name_plural = _('dars mavzulari')
+
+class LessonModel(BaseModel):
+    choices = (
+        (1, _("mahalliy")),
+        (2, _('umumjahon'))
+    )
+    type = models.IntegerField(choices=choices, verbose_name=_("turi"))
+    theme = models.ForeignKey(LessonThemeModel, on_delete=models.CASCADE, related_name='lesson', verbose_name=_("mavzu"))
+
+    def __str__(self) -> str:
+        return f"{self.theme} | {self.get_type_display()}"
+
+    class Meta:
+        unique_together = ['theme', 'type']
+        verbose_name = _('darslik')
+        verbose_name_plural = _('darsliklar')
+
+class VacansyModel(BaseModel):
+    title = models.CharField(max_length=255, verbose_name=_("sarlavha"))
+    category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='vacansy', verbose_name=_("kategoriya"))
+    company_name = models.CharField(max_length=255, verbose_name=_("kompaniya_nomi"))
+    description = RichTextField(verbose_name=_("tavsif"))
+    salary = models.CharField(max_length=255, verbose_name=_("maosh"))
+    lesson = models.ForeignKey(LessonModel, on_delete=models.CASCADE, related_name='vacansy', verbose_name=_('darslik'), null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.category} | {self.title}"
+
+    class Meta:
+        verbose_name = _("bo'sh ish o'rni")
+        verbose_name_plural = _("bo'sh ish o'rinlari")
 
 class ClubModel(BaseModel):
     theme = models.OneToOneField(LessonThemeModel, on_delete=models.CASCADE, related_name='club', verbose_name=_("mavzu"))
@@ -65,22 +82,6 @@ class ClubPostModel(BaseModel):
     class Meta:
         verbose_name = _('klub kantenti')
         verbose_name_plural = _('klub kantentlari')
-
-class LessonModel(BaseModel):
-    choices = (
-        (1, _("mahalliy")),
-        (2, _('umumjahon'))
-    )
-    type = models.IntegerField(choices=choices, verbose_name=_("turi"))
-    theme = models.ForeignKey(LessonThemeModel, on_delete=models.CASCADE, related_name='lesson', verbose_name=_("mavzu"))
-
-    def __str__(self) -> str:
-        return f"{self.theme} | {self.get_type_display()}"
-
-    class Meta:
-        unique_together = ['theme', 'type']
-        verbose_name = _('darslik')
-        verbose_name_plural = _('darsliklar')
         
 class DicussionModel(BaseModel):
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, verbose_name=_("foydalanuvchi"), related_name="discussion")

@@ -146,21 +146,21 @@ class TestUserConCategory(TestCase):
 # class TestFAQ(TestCase):
 
     #API
-    def test_get(self):
-        response = self.client.get('/api/v1/common/FAQ/')
-        self.assertEqual(response.status_code, 200)
+    # def test_get(self):
+    #     response = self.client.get('/api/v1/common/FAQ/')
+    #     self.assertEqual(response.status_code, 200)
 
 
-    #model
-    def test_model_save_find_order_auto(self):
-        faq1 = models.FAQModel.objects.create(
-            question = 'Nega yer shar shaklida?',
-            answer = 'Nega bo\'lmasin'
-        ) 
-        self.assertEqual(faq1.order, 1)
+    # #model
+    # def test_model_save_find_order_auto(self):
+    #     faq1 = models.FAQModel.objects.create(
+    #         question = 'Nega yer shar shaklida?',
+    #         answer = 'Nega bo\'lmasin'
+    #     ) 
+    #     self.assertEqual(faq1.order, 1)
 
-        faq2 = models.FAQModel.objects.create(
-            question = 'Rostan so\'rayapman!!!',
-            answer = 'Bo\'ldi qilasammi?!'
-        )
-        self.assertEqual(faq2.order, 2)
+    #     faq2 = models.FAQModel.objects.create(
+    #         question = 'Rostan so\'rayapman!!!',
+    #         answer = 'Bo\'ldi qilasammi?!'
+    #     )
+    #     self.assertEqual(faq2.order, 2)

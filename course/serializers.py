@@ -1,6 +1,12 @@
 from course import models
 from rest_framework import serializers
 
+
+class VacansySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.VacansyModel
+        fields = ['title', 'category', 'company_name', 'description', 'salary']
+
 class StageSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.StageModel

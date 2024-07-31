@@ -7,6 +7,11 @@ from django.utils.safestring import mark_safe
 from django.db import models as dj_models
 from django.contrib.admin.widgets import AdminTextareaWidget
 
+@admin.register(models.VacansyModel)
+class VacansyAdmin(TranslationAdmin):
+    list_display = ['title']
+    list_display_links = ['title']
+
 @admin.register(models.CategoryModel)
 class CategoryAdmin(TranslationAdmin):
     list_display = ['name']

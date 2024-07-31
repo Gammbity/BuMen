@@ -1,6 +1,10 @@
 from modeltranslation.translator import TranslationOptions, register
 from course import models
 
+@register(models.VacansyModel)
+class VacansyTrans(TranslationOptions):
+    fields = ['title', 'company_name', 'description', 'salary']
+
 @register(models.CategoryModel)
 class CategoryTranslationOptions(TranslationOptions):
     fields = ('name',)
