@@ -5,9 +5,9 @@ from user.models import UserModel
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 
-class CategoryModel(BaseModel):
+class CategoryModel(BaseModel): 
     name = models.CharField(max_length=255, verbose_name=_('nomi'))
-    clicked_user = models.ManyToManyField(UserModel, verbose_name=_("tashrif buyurgan foydalanuvchilar"), related_name="category")
+    clicked_user = models.ManyToManyField(UserModel,null=True, blank=True, verbose_name=_("tashrif buyurgan foydalanuvchilar"), related_name="category")
     click_count = models.PositiveBigIntegerField(default=0, verbose_name=_("bosish soni"))
 
     def __str__(self) -> str:
@@ -37,11 +37,13 @@ class LessonThemeModel(BaseModel):
     photo = models.ImageField(upload_to='lessont-theme/%Y/%m/', verbose_name=_('rasm')) 
     author = models.CharField(max_length=255, verbose_name=_('avtor')) 
     category = models.ForeignKey(CategoryModel, on_delete=models.CASCADE, related_name='lesson_theme', verbose_name=_("kategoriya"))
+    users_count = models.BigIntegerField(default=0, verbose_name=_('boshlagan foydalanuvchilar soni'))
 
     def __str__(self) -> str:
         return self.title
 
     class Meta:
+        ordering = ['-users_count']
         verbose_name = _('dars mavzusi')
         verbose_name_plural = _('dars mavzulari')
 
@@ -177,6 +179,8 @@ class UserLessonModel(BaseModel):
     user = models.ForeignKey('user.UserModel', on_delete=models.CASCADE, related_name="user_lesson_theme", verbose_name=_('foydalanuvchi'))
     lesson = models.ForeignKey('course.LessonModel', on_delete=models.CASCADE, related_name="user_lesson_theme", verbose_name=_("darslik"))
     last_seen_at = models.DateTimeField(verbose_name=_("so'nggi ko'rilgan"), auto_now=True)
+    started_at = models.DateTimeField(null=True, blank=True, verbose_name=_('boshlangan vaqti'))
+    finished_at = models.DateTimeField(null=True, blank=True, verbose_name=_('tugallangan vaqti'))
 
     class Meta:
         unique_together = ['user', 'lesson']
