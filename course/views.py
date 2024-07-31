@@ -5,6 +5,12 @@ from course import serializers
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter
 
+class LessonThemesView(generics.ListAPIView):
+    queryset = models.LessonThemeModel.objects.all()
+    serializer_class = serializers.LessonThemeSerializer
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['category']
+
 class CategoryView(generics.ListAPIView):
     queryset = models.CategoryModel.objects.all()
     serializer_class = serializers.CategorySerializer

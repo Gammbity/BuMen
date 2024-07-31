@@ -21,5 +21,9 @@ app.conf.beat_schedule = {
     "news_views_cleaner": {
         "task": "common.tasks.news_views_cleaner",
         "schedule": crontab(hour='15', minute='1')
+    },
+    "count_lesson_theme_users_count": {
+        "task": "course.tasks.count_lesson_theme_users_count",
+        "schedule": crontab(minute='*/15')
     }
 }
